@@ -2,11 +2,12 @@
 
 To regenerate the `busybox` binary in this repository:
 
+    sudo apt-get install gcc-aarch64-linux-gnu
+
     git clone git://git.musl-libc.org/musl
     git clone git://busybox.net/busybox.git
 
     cd musl
-    sudo apt-get install gcc-aarch64-linux-gnu
     CROSS_COMPILE=aarch64-linux-gnu- ./configure --disable-shared --prefix=$(pwd -P)/out
     make
     make install
