@@ -22,3 +22,6 @@ To regenerate the `busybox` binary in this repository:
 Notes:
 
  - The busybox configuration is copied from this repository
+ - To build with `musl`, `busybox`'s config contains
+   `CONFIG_EXTRA_CFLAGS="-specs=../musl/out/lib/musl-gcc.specs"` as a relative
+   path.
