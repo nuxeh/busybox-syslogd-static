@@ -14,8 +14,10 @@ To regenerate the `busybox` binary in this repository:
     cd ..
 
     cp ts002_defconfig busybox/configs
+    cp 0001-Fix-a-bug-preventing-log-rotation-from-working.patch busybox
 
     cd busybox
+    git am < 0001-Fix-a-bug-preventing-log-rotation-from-working.patch
     CROSS_COMPILE=aarch64-linux-gnu- make ts002_defconfig
     CROSS_COMPILE=aarch64-linux-gnu- make
 

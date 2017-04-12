@@ -1,0 +1,28 @@
+From 02a525341fa723ecf454ea638c3444bdcddc7092 Mon Sep 17 00:00:00 2001
+From: Edward Cragg <edward.cragg@codethink.co.uk>
+Date: Wed, 12 Apr 2017 15:58:07 +0100
+Subject: [PATCH] Fix a bug preventing log rotation from working
+
+On Android with busybox built statically against musl, for some reason,
+while fstat() returns 0, it does not report that the file is a regular
+file.
+---
+ sysklogd/syslogd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sysklogd/syslogd.c b/sysklogd/syslogd.c
+index d64ff278f..17113af40 100644
+--- a/sysklogd/syslogd.c
++++ b/sysklogd/syslogd.c
+@@ -727,7 +727,7 @@ static void log_locally(time_t now, char *msg, logFile_t *log_file)
+ #if ENABLE_FEATURE_ROTATE_LOGFILE
+ 			{
+ 				struct stat statf;
+-				log_file->isRegular = (fstat(log_file->fd, &statf) == 0 && S_ISREG(statf.st_mode));
++				log_file->isRegular = 1; // doesn't work on Android with static musl
+ 				/* bug (mostly harmless): can wrap around if file > 4gb */
+ 				log_file->size = statf.st_size;
+ 			}
+-- 
+2.11.0
+
